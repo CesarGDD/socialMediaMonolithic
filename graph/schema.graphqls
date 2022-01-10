@@ -1,0 +1,197 @@
+scalar Time
+
+# User Scheme
+type User {
+  id: Int!
+  createdAt: Time!
+  updatedAt: Time!
+  username: String!
+  bio: String
+  avatar: String
+  email: String
+  password: String!
+  posts: [Post!]
+}
+
+
+input NewUser {
+  username: String!
+  bio: String
+  avatar: String
+  phone: String
+  email: String
+  password: String!
+}
+
+input EditUser {
+  id: Int!
+  bio: String
+  avatar: String
+}
+
+
+# Post Schema
+
+type Post {
+  id: Int!
+  createdAt: Time!
+  updatedAt: Time!
+  url: String!
+  caption: String
+  userId: Int!
+  comments: [Comment!]
+  likes: [Postlike!]
+}
+
+input NewPost {
+  url: String!
+  caption: String
+  userId: Int!
+}
+
+input EditPost {
+  id: Int!
+  url: String
+  caption: String
+}
+
+# Comments Schema
+type Comment {
+  id: Int!
+  createdAt: Time!
+  updatedAt: Time!
+  contents: String!
+  userId: Int!
+  postId: Int!
+  likes: [Commentlike!]
+}
+
+input NewComment {
+  contents: String!
+  userId: Int!
+  postId: Int!
+}
+
+input EditComment {
+  id: Int!
+  contents: String!
+}
+
+# PostLikes Schema
+type Postlike {
+  id: Int!
+  createdAt: Time!
+  userId: Int!
+  postId: Int!
+  user: User!
+}
+
+input NewPostLike {
+  userId: Int!
+  postId: Int!
+}
+
+# CommentLikes Schema
+type Commentlike {
+  id: Int!
+  createdAt: Time!
+  userId: Int!
+  commentId: Int!
+  user: User!
+}
+
+input NewCommentLike {
+  userId: Int!
+  commentId: Int!
+}
+
+# Hashtag Schema
+type Hashtag {
+  id: Int!
+  createdAt: Time!
+  title: String!
+}
+
+input NewHashtag {
+  title: String!
+}
+
+input EditHashtag {
+  id: Int!
+  title: String!
+}
+
+
+# Followers Schema
+type Follower {
+  id: Int!
+  createdAt: Time!
+  leaderId: Int!
+  followerId: Int!
+}
+
+input NewFollower {
+  leaderId: Int!
+  followerId: Int!
+}
+
+# Querys
+
+type Query {
+  # Users
+  user(username: String!): User! 
+  users: [User!]!
+  # Posts
+  post(id: Int!): Post!
+  posts: [Post!]!
+  # Comments
+  comment(id: Int!): Comment!
+  comments: [Comment!]!
+  # PostLikes
+  postLike(id: Int!): Postlike!
+  postLikes: [Postlike!]!
+  # CommentLikes
+  commentLike(id: Int!): Commentlike!
+  commentLikes: [Commentlike!]!
+  # Hashtag
+  hashtag(title: String!): Hashtag!
+  hashtags: [Hashtag!]!
+  # Followers
+  follower(id: Int!): Follower!
+  followers:[Follower!]!
+}
+
+# Mutations
+type Mutation {
+  # Users
+  createUser(input: NewUser):User!
+  updateUser(input: EditUser):User!
+  deleteUser(input: Int):User
+
+  # Posts
+  createPost(input:NewPost):Post!
+  updatePost(input:EditPost):Post!
+  deletePost(input: Int):Post
+
+  # Comments
+  createComment(input: NewComment): Comment!
+  updateComment(input: EditComment): Comment!
+  deleteComment(input: Int): Comment
+
+  # PostLikes
+  createPostLike(input: NewPostLike): Postlike!
+  deletePostLike(input: Int): Postlike
+  
+  # CommentLikes
+  createCommentLike(input: NewCommentLike): Commentlike!
+  deleteCommentLike(input: Int): Commentlike
+
+  # Hashtag
+  createHashtag(input: NewHashtag): Hashtag!
+  updateHashtag(input: EditHashtag): Hashtag!
+  deleteHashtag(input: Int): Hashtag
+
+  # Followers
+  createFollower(input: NewFollower): Follower!
+  deleteFollower(input: Int): Follower
+}
